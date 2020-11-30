@@ -11,5 +11,5 @@ app.get('/hey', (req, res) => {		// Route Handler 2
 	res.send({ hey: 'there babe'});
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000; // To support Heroku deployment, Env variable set by Heroku
 app.listen(PORT);  // Telling node to listen on PORT for traffic, accessed via http://localhost:5000
