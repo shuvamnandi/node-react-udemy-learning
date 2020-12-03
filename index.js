@@ -1,6 +1,12 @@
 const express = require('express'); // Get access to express using CommonJS modules
 // import express from 'express'; // NodeJS does not have support for ES2015 modules, supported in React
+const mongoose = require('mongoose');
 
+const keys = require('./config/keys');
+
+mongoose.connect(keys.mongoURI);
+
+require('./models/User');
 require('./services/passport');
 
 const app = express(); // We can have multiple apps like this
