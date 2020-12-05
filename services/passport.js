@@ -6,6 +6,17 @@ const keys = require('../config/keys');
 
 const User = mongoose.model('users'); // Loads the schema from Mongoose
 
+passport.serializeUser((user, done) => {
+	done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+	User.findById(id)
+		.then(user=>{
+			done(null, user);
+		})
+});
+
 passport.use( new GoogleStrategy( { 
 	clientID: keys.googleClientID,
 	clientSecret: keys.googleClientSecret,
@@ -16,22 +27,23 @@ passport.use( new GoogleStrategy( {
 			console.log("accessToken:", accessToken);
 			console.log("google profile returned:", profile.id);
 
-			User.findOne({ googleId: profile.id }).then(existingUser => {
-				if (existingUser) {
-					// we already have a record with given profile ID
-					console.log("User already exists in our records, good to login");
-					done(null, existingUser);
-				} else {
-					// we don't have a record with given profile ID, create a new record
-					console.log("User is new, signing up");
-					new User({googleId: profile.id, 
-						googleDislayName: profile.displayname, 
-						givenName: profile.name.givenName,
-						familyName: profile.name.familyName})
-						.save()
-						.then(user=>done(null, user)); // this user returned by the promise is used
-				}
-			});
+			User.findOne({ googleId: profile.id })
+				.then(existingUser => {
+					if (existingUser) {
+						// we already have a record with given profile ID
+						console.log("User already exists in our records, good to login");
+						done(null, existingUser);
+					} else {
+						// we don't have a record with given profile ID, create a new record
+						console.log("User is new, signing up");
+						new User({googleId: profile.id, 
+							googleDislayName: profile.displayname, 
+							givenName: profile.name.givenName,
+							familyName: profile.name.familyName})
+							.save()
+							.then(user=>done(null, user)); // this user returned by the promise is used
+					}
+				});
 		}
 	)
 );
