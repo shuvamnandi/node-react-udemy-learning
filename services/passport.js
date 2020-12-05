@@ -20,7 +20,8 @@ passport.deserializeUser((id, done) => {
 passport.use( new GoogleStrategy( { 
 	clientID: keys.googleClientID,
 	clientSecret: keys.googleClientSecret,
-	callbackURL: "/auth/google/callback"
+	callbackURL: "/auth/google/callback",
+	proxy: true
 		}, (accessToken, refreshToken, profile, done) => {
 			// These are returned by Google, containing more details about the user after successful OAuth
 			console.log("***User authenticated with Google***");
