@@ -10,12 +10,12 @@ module.exports = app => {
         //     return res.status(401).send( { error: "You must log in!" });
         // }
         const charge = await stripe.charges.create( {
-            amount: 500,
+            amount: 1000,
             currency: 'sgd',
-            description: "SGD 5 for 5 credits",
+            description: "SGD 10 for 10 credits",
             source: req.body.id
         });
-        req.user.credits += 5; // req.user made available via passport middleware
+        req.user.credits += 10; // req.user made available via passport middleware
         console.log("No. of credits now: ", req.user.credits);
         const user = await req.user.save();
         console.log("User credits updated on server: ", user.credits);
