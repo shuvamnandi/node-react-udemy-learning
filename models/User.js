@@ -9,6 +9,7 @@ const userSchema = new Schema( {
 	givenName: String,
 	familyName: String,
 	age: Number, 
+	credits: { type: Number, default: 0 }
 });
 
 mongoose.model('users', userSchema); // Loads the schema into Mongoose

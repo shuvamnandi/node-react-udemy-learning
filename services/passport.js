@@ -22,29 +22,24 @@ passport.use( new GoogleStrategy( {
 	clientSecret: keys.googleClientSecret,
 	callbackURL: "/auth/google/callback",
 	proxy: true
-		}, (accessToken, refreshToken, profile, done) => {
+		}, async (accessToken, refreshToken, profile, done) => {
 			// These are returned by Google, containing more details about the user after successful OAuth
 			console.log("***User authenticated with Google***");
-			console.log("accessToken:", accessToken);
 			console.log("google profile returned:", profile.id);
 
-			User.findOne({ googleId: profile.id })
-				.then(existingUser => {
-					if (existingUser) {
-						// we already have a record with given profile ID
-						console.log("User already exists in our records, good to login");
-						done(null, existingUser);
-					} else {
-						// we don't have a record with given profile ID, create a new record
-						console.log("User is new, signing up");
-						new User({googleId: profile.id, 
-							googleDislayName: profile.displayname, 
-							givenName: profile.name.givenName,
-							familyName: profile.name.familyName})
-							.save()
-							.then(user=>done(null, user)); // this user returned by the promise is used
-					}
-				});
+			const existingUser = await User.findOne({ googleId: profile.id })
+			if (existingUser) {
+				// we already have a record with given profile ID
+				console.log("User already exists in our records, good to login");
+				return done(null, existingUser);
+			} 
+			// we don't have a record with given profile ID, create a new record
+			console.log("User is new, signing up");
+			const user = await new User( { googleId: profile.id, 
+				googleDislayName: profile.displayname, 
+				givenName: profile.name.givenName,
+				familyName: profile.name.familyName}).save()
+			done(null, user); // this user returned by the promise is used
 		}
 	)
 );

@@ -1,3 +1,9 @@
-node_modules
+# dependencies
+/node_modules
 node_modules/*
+
+# development specific files
 dev.js
+
+# misc
+.DS_Store
