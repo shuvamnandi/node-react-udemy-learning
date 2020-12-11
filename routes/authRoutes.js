@@ -1,15 +1,6 @@
 const passport = require('passport');
 
 module.exports = app => {
-	app.get('/', (req, res) => {		// Route Handler 1
-		res.send({ hi: 'there'});
-	});
-
-
-	app.get('/hey', (req, res) => {		// Route Handler 2
-		res.send({ hey: 'there babe'});
-	});
-
 	app.get(
 		'/auth/google/', 
 		// 'google' is an internal identifier present within GoogleStrategy to know what to authenticate using
