@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 mongoose.connect(keys.mongoURI);
 
 require('./models/User');
+require('./models/Survey');
 require('./services/passport');
 
 const app = express(); // We can have multiple apps like this
@@ -27,6 +28,7 @@ app.use(passport.session());
 
 require('./routes/authRoutes')(app); // Call the arrow function inside module.exports using app
 require('./routes/paymentRoutes')(app); // Call the arrow function inside module.exports using app
+require('./routes/surveyRoutes')(app); // Call the arrow function inside module.exports using app
 
 if (process.env.NODE_ENV === 'production') {
 	// Express will serve up production assets

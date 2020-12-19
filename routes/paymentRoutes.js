@@ -21,4 +21,4 @@ module.exports = app => {
         console.log("User credits updated on server: ", user.credits);
         res.send(user);
     });
-}
+};
