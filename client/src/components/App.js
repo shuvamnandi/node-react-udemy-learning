@@ -10,8 +10,8 @@ import * as actions from "../actions";
 
 import Header from "./Header";
 import Landing from "./Landing";
+import Dashboard from "./Dashboard";
 
-const Dashboard = () => <h3>Dashboard</h3>
 const SurveyNew = () => <h3>Survey New</h3>
 
 class App extends Component {

@@ -8,6 +8,7 @@ import reduxThunk from "redux-thunk";
 
 import App from "./components/App";
 import reducers from "./reducers";
+// Temporarily added to send POST requests from React app console, along with all the user info present in requests
 import axios from "axios";
 window.axios = axios;
 

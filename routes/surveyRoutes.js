@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const requireLogin = require('../middlewares/requireLogin');
 const requireCredits = require('../middlewares/requireCredits');
-const Mailer = require('../services/Mailer');
+const sgMail = require('../services/sendgridMailer');
 const template = require('../services/emailTemplates/surveyTemplate');
 const Survey = mongoose.model('surveys');
 
@@ -23,20 +23,20 @@ module.exports = app => {
         });
 
         // Great place to send an email
-        const mailer = new Mailer(survey, template(survey));
+        // const mailer = new Mailer(survey, template(survey));
 
         try {
-            await mailer.send();
+            await sgMail( survey, template(survey));
             try {
                 await survey.save();
                 req.user.credits -= 1; // charge user for sending a new survey campaign email
                 const user = await req.user.save(); // update credits on MongoDB
                 res.send(user);
-            } catch(error){
-                res.status(423).send(error); // 423 status code means error in saving survey
+            } catch(err){
+                res.status(423).send(err); // 423 status code means error in saving survey
             }
-        } catch (error) {
-            res.status(422).send(error); // 422 status code means user made some mistake in sending data (error in sending email)
+        } catch (err) {
+            res.status(422).send(err); // 422 status code means user made some mistake in sending data (error in sending email)
         }
     });
 };
