@@ -16,3 +16,9 @@ export const handleToken = token => async (dispatch) => {
     // available as this.props.auth in any component using this
     dispatch({type: FETCH_USER, payload: res.data});
 }
+
+export const submitSurvey = (values, history) => async (dispatch) => {
+    const res = await axios.post("/api/surveys", values );
+    history.push("/surveys"); // redirect using withRouter helper from react-router-dom
+    dispatch({type: FETCH_USER, payload: res.data});
+}

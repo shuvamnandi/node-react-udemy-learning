@@ -11,8 +11,7 @@ import * as actions from "../actions";
 import Header from "./Header";
 import Landing from "./Landing";
 import Dashboard from "./Dashboard";
-
-const SurveyNew = () => <h3>Survey New</h3>
+import SurveyNew from "./surveys/SurveyNew";
 
 class App extends Component {
     // Material UI expects one root level div with class name "container"
@@ -24,16 +23,14 @@ class App extends Component {
 
     render() {
         return (
-            <div className="container">
-                <BrowserRouter>
-                    <div>
-                        <Header/>
-                        <Route exact path="/" component={Landing}/>
-                        <Route exact path="/surveys/" component={Dashboard}/>
-                        <Route path="/surveys/new" component={SurveyNew}/>
-                    </div>
-                </BrowserRouter>
-            </div>
+            <BrowserRouter>
+                <div className="container">
+                    <Header/>
+                    <Route exact path="/" component={Landing}/>
+                    <Route exact path="/surveys/" component={Dashboard}/>
+                    <Route path="/surveys/new" component={SurveyNew}/>
+                </div>
+            </BrowserRouter>
         );
     }
 }
