@@ -10,9 +10,15 @@ module.exports = app => {
         res.send('Thanks for voting!');
     });
 
+    app.get( '/api/surveys/', async (req, res) => {
+        const surveys = await Survey.find({_user: req.user.id})
+                                    .select({recipients: false});
+        res.send(surveys);
+    });
+
     app.post( '/api/surveys/webhook', (req, res) => {
         console.log(req.body);
-        res.send({});
+        res.send({}); // dummy response to not keep sendgrid hanging, otherwise it will keep retrying and sending more notifications for same events
     });
 
     app.post( '/api/surveys', requireLogin, requireCredits, async (req, res) => {
@@ -24,7 +30,8 @@ module.exports = app => {
             body,
             recipients: recipients.split(',').map(email=> ({email})),
             _user: req.user.id,
-            dateSent: Date.now()
+            dateSent: Date.now(),
+            dateLastResponded: undefined
         });
 
         // Great place to send an email
