@@ -1,6 +1,6 @@
 const keys = require('../../config/keys');
 
-module.exports = (survey) => {
+module.exports = survey => {
     return `
         <body>
             <div style="text-align: center;">
