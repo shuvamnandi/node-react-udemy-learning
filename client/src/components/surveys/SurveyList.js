@@ -15,11 +15,11 @@ class SurveyList extends Component{
                         <span className="card-title">{survey.title}</span>
                         <p>{survey.body}</p>
                         <p className="right">Sent on: { new Date(survey.dateSent).toLocaleDateString()}</p>
-                        <p>Last User Response on: { new Date(survey.dateLastResponded).toLocaleDateString()}</p>
+                        <p>Last User Response on: { survey.dateLastResponded ? new Date(survey.dateLastResponded).toLocaleDateString() : "N/A" }</p>
                     </div>
                     <div className="card-action">
-                    <a>Yes: {survey.yes}</a>
-                    <a>No: {survey.no}</a>
+                        <a href="#">Yes: {survey.yes}</a>
+                        <a href="#">No: {survey.no}</a>
                     </div>
                 </div>
             );
